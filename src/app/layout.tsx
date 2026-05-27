@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Serif, Outfit, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -14,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DP Visualizer — Dynamic Programming Animations",
+  title: "DP Visualizer",
   description:
     "Interactive visualizations for classic dynamic programming algorithms",
 };
@@ -27,24 +33,24 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${instrumentSerif.variable} ${outfit.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <nav className="sticky top-0 z-50 backdrop-blur-md bg-[#0a0a0f]/80 border-b border-[#1e1e2e]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm group-hover:scale-110 transition-transform">
-                DP
-              </div>
-              <span className="font-semibold text-lg tracking-tight">
-                DP <span className="text-indigo-400">Visualizer</span>
+        <nav className="sticky top-0 z-50 bg-[#0c0c0e]/90 backdrop-blur-sm border-b border-[#27272a]">
+          <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+            <Link href="/" className="flex items-baseline gap-2 group">
+              <span className="font-display text-xl tracking-tight text-[#fafafa]">
+                dp
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#71717a] font-medium">
+                visualizer
               </span>
             </Link>
             <Link
               href="/"
-              className="text-sm text-slate-400 hover:text-indigo-400 transition-colors"
+              className="text-xs uppercase tracking-[0.15em] text-[#71717a] hover:text-[#d4a574] transition-colors"
             >
-              All Algorithms
+              Index
             </Link>
           </div>
         </nav>
