@@ -219,13 +219,13 @@ export default function ClimbingStairsPage() {
         <button
           onClick={handleStart}
           disabled={isRunning}
-          className="flex-1 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-2.5 px-4 rounded bg-[#d4a574] text-[#0c0c0e] text-sm font-medium hover:bg-[#c49564] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isRunning ? "Running..." : "Start"}
         </button>
         <button
           onClick={handleReset}
-          className="flex-1 rounded-lg border border-[#2a2a3e] bg-[#1e1e2e] px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-[#2a2a3e] transition-colors"
+          className="flex-1 py-2.5 px-4 rounded border border-[#27272a] text-[#a1a1aa] text-sm font-medium hover:border-[#3f3f46] hover:text-[#fafafa] transition-colors"
         >
           Reset
         </button>

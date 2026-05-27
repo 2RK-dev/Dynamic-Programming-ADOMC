@@ -293,13 +293,13 @@ export default function KnapsackPage() {
         <button
           onClick={handleStart}
           disabled={isRunning}
-          className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-purple-600 to-violet-600 text-white text-sm font-semibold hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-2.5 px-4 rounded bg-[#d4a574] text-[#0c0c0e] text-sm font-medium hover:bg-[#c49564] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isRunning ? "Running..." : "Start"}
         </button>
         <button
           onClick={handleReset}
-          className="px-4 py-2.5 rounded-lg bg-[#1e1e2e] text-slate-400 text-sm font-medium hover:text-white hover:bg-[#2a2a3e] transition"
+          className="py-2.5 px-4 rounded border border-[#27272a] text-[#a1a1aa] text-sm font-medium hover:border-[#3f3f46] hover:text-[#fafafa] transition-colors"
         >
           Reset
         </button>

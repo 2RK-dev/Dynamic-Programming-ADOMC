@@ -317,13 +317,13 @@ export default function LCSPage() {
         <button
           onClick={runLCS}
           disabled={isRunning || !stringA || !stringB}
-          className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-pink-500/20"
+          className="flex-1 py-2.5 px-4 rounded bg-[#d4a574] text-[#0c0c0e] text-sm font-medium hover:bg-[#c49564] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {isRunning ? "En cours..." : "Demarrer"}
+          {isRunning ? "Running..." : "Start"}
         </button>
         <button
           onClick={handleReset}
-          className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 bg-[#1e1e2e] hover:bg-[#2a2a3a] border border-[#2e2e3e] transition-colors"
+          className="py-2.5 px-4 rounded border border-[#27272a] text-[#a1a1aa] text-sm font-medium hover:border-[#3f3f46] hover:text-[#fafafa] transition-colors"
         >
           Reset
         </button>

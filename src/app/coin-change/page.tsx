@@ -340,13 +340,13 @@ export default function CoinChangePage() {
         <button
           onClick={startVisualization}
           disabled={isRunning}
-          className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold text-sm hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-orange-500/20"
+          className="flex-1 py-2.5 px-4 rounded bg-[#d4a574] text-[#0c0c0e] text-sm font-medium hover:bg-[#c49564] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isRunning ? "Running..." : "Start"}
         </button>
         <button
           onClick={reset}
-          className="px-4 py-2.5 rounded-xl bg-[#1a1a2e] border border-[#2a2a3e] text-slate-300 font-semibold text-sm hover:bg-[#222238] transition-all"
+          className="py-2.5 px-4 rounded border border-[#27272a] text-[#a1a1aa] text-sm font-medium hover:border-[#3f3f46] hover:text-[#fafafa] transition-colors"
         >
           Reset
         </button>
