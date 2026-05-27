@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dynamic Programming — Présentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0c0c0e;
+    --surface: #161618;
+    --border: #27272a;
+    --text: #fafafa;
+    --text-2: #a1a1aa;
+    --text-3: #71717a;
+    --text-4: #3f3f46;
+    --accent: #d4a574;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+  }
+
+  html { font-size: 18px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', system-ui, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  ::selection {
+    background: rgba(212, 165, 116, 0.3);
+  }
+
+  .deck {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6vh 10vw;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  h1 { font-size: 4rem; line-height: 1.1; letter-spacing: -0.02em; }
+  h2 { font-size: 2.4rem; line-height: 1.2; letter-spacing: -0.01em; }
+  h3 { font-size: 1.4rem; line-height: 1.3; }
+
+  .subtitle {
+    color: var(--text-3);
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    line-height: 1.6;
+    max-width: 36rem;
+  }
+
+  .accent { color: var(--accent); }
+  .green { color: var(--green); }
+  .amber { color: var(--amber); }
+  .red { color: var(--red); }
+  .dim { color: var(--text-3); }
+  .dimmer { color: var(--text-4); }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-4);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+  }
+
+  .items {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .item {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    font-size: 1.05rem;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+
+  .item .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-4);
+    width: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .item strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2.5rem;
+  }
+
+  .col-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+  }
+
+  .col-card h3 {
+    margin-bottom: 1.2rem;
+  }
+
+  .col-card .code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-3);
+    line-height: 1.8;
+    white-space: pre;
+    margin-top: 1rem;
+  }
+
+  .table-grid {
+    display: grid;
+    grid-template-columns: 2.5rem repeat(6, 1fr);
+    gap: 2px;
+    margin-top: 2rem;
+    max-width: 32rem;
+  }
+
+  .table-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.6rem;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-2);
+    border-radius: 2px;
+  }
+
+  .table-cell.header {
+    background: transparent;
+    border: none;
+    color: var(--text-4);
+    font-size: 0.7rem;
+  }
+
+  .table-cell.filled {
+    background: rgba(212, 165, 116, 0.1);
+    border-color: rgba(212, 165, 116, 0.25);
+    color: var(--accent);
+  }
+
+  .table-cell.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 500;
+  }
+
+  .problems-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .problem-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.4rem;
+  }
+
+  .problem-card .label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.6rem;
+  }
+
+  .problem-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .problem-card p {
+    font-size: 0.8rem;
+    color: var(--text-3);
+    line-height: 1.5;
+  }
+
+  .big-number {
+    font-family: 'Instrument Serif', serif;
+    font-size: 5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 4rem;
+    margin-top: 2.5rem;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .stat .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    color: var(--text);
+  }
+
+  .stat .label {
+    font-size: 0.75rem;
+    color: var(--text-4);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .steps-list {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 1.05rem;
+    color: var(--text-2);
+  }
+
+  .step-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .step-item .step-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+    width: 2rem;
+    flex-shrink: 0;
+  }
+
+  .demo-box {
+    margin-top: 3rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .demo-box .url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent);
+    background: var(--bg);
+    padding: 0.6rem 1.2rem;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  /* Progress bar */
+  .progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  /* Slide counter */
+  .counter {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-4);
+    z-index: 100;
+  }
+
+  /* Keyboard hint */
+  .nav-hint {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 2rem;
+    font-size: 0.65rem;
+    color: var(--text-4);
+    z-index: 100;
+  }
+
+  .nav-hint kbd {
+    display: inline-block;
+    padding: 0.15rem 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    margin: 0 0.15rem;
+  }
+
+  .comparison-row {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .vs-badge {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.2rem;
+    color: var(--text-4);
+  }
+
+  .complexity-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem 1.6rem;
+    text-align: center;
+  }
+
+  .complexity-box .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .complexity-box .label {
+    font-size: 0.7rem;
+    color: var(--text-4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active" data-slide="0">
+    <div class="tag">Présentation — 10 min</div>
+    <h1 class="serif">
+      Dynamic<br/>Programming
+    </h1>
+    <p class="subtitle">
+      Comprendre, visualiser et maîtriser l'une des techniques
+      les plus puissantes de l'algorithmique.
+    </p>
+  </div>
+
+  <!-- SLIDE 2: C'est quoi le DP ? -->
+  <div class="slide" data-slide="1">
+    <div class="tag">Introduction</div>
+    <h2 class="serif">C'est quoi le <span class="accent">Dynamic Programming</span> ?</h2>
+    <div class="items">
+      <div class="item">
+        <span class="num">—</span>
+        <span>Une méthode d'<strong>optimisation</strong> qui décompose un problème complexe en <strong>sous-problèmes plus simples</strong></span>
+      </div>
+      <div class="item">
+        <span class="num">—</span>
+        <span>On résout chaque sous-problème <strong>une seule fois</strong> et on stocke le résultat pour éviter les calculs redondants</span>
+      </div>
+      <div class="item">
+        <span class="num">—</span>
+        <span>Inventé par <strong>Richard Bellman</strong> dans les années 1950 — le nom n'a rien à voir avec la "programmation" au sens code</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Les 2 propriétés clés -->
+  <div class="slide" data-slide="2">
+    <div class="tag">Concepts fondamentaux</div>
+    <h2 class="serif">Deux propriétés <span class="accent">essentielles</span></h2>
+    <div class="two-col">
+      <div class="col-card">
+        <h3 class="serif">Sous-structure optimale</h3>
+        <p class="item" style="font-size: 0.9rem;">
+          La solution optimale du problème contient les solutions optimales de ses sous-problèmes.
+        </p>
+        <div class="code">// Fibonacci
+F(n) = F(n-1) + F(n-2)
+       ↑          ↑
+  sous-problèmes optimaux</div>
+      </div>
+      <div class="col-card">
+        <h3 class="serif">Chevauchement des sous-problèmes</h3>
+        <p class="item" style="font-size: 0.9rem;">
+          Les mêmes sous-problèmes sont résolus plusieurs fois dans l'approche naïve.
+        </p>
+        <div class="code">        F(5)
+       /    \
+    F(4)    F(3)  ← déjà calculé !
+    /  \    /  \
+ F(3) F(2) F(2) F(1)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Top-Down vs Bottom-Up -->
+  <div class="slide" data-slide="3">
+    <div class="tag">Approches</div>
+    <h2 class="serif">Top-Down <span class="dim">vs</span> Bottom-Up</h2>
+    <div class="two-col">
+      <div class="col-card">
+        <h3 class="serif" style="color: var(--amber)">Mémoïsation</h3>
+        <p style="font-size: 0.85rem; color: var(--text-3); margin-bottom: 0.8rem;">
+          Récursion + cache. On part du problème principal et on descend.
+        </p>
+        <div class="code">def fib(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fib(n-1) + fib(n-2)
+    return memo[n]</div>
+      </div>
+      <div class="col-card">
+        <h3 class="serif" style="color: var(--green)">Tabulation</h3>
+        <p style="font-size: 0.85rem; color: var(--text-3); margin-bottom: 0.8rem;">
+          Itératif + tableau. On part des cas de base et on remonte.
+        </p>
+        <div class="code">def fib(n):
+    dp = [0] * (n + 1)
+    dp[1] = 1
+    for i in range(2, n + 1):
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp[n]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Les étapes pour résoudre -->
+  <div class="slide" data-slide="4">
+    <div class="tag">Méthodologie</div>
+    <h2 class="serif">Résoudre un problème DP <span class="accent">en 4 étapes</span></h2>
+    <div class="steps-list">
+      <div class="step-item">
+        <span class="step-num serif">1</span>
+        <span><strong>Identifier</strong> — Le problème a-t-il une sous-structure optimale et des sous-problèmes chevauchants ?</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num serif">2</span>
+        <span><strong>Définir l'état</strong> — Que représente <span class="mono" style="color: var(--accent)">dp[i]</span> ou <span class="mono" style="color: var(--accent)">dp[i][j]</span> ? C'est la question clé.</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num serif">3</span>
+        <span><strong>Écrire la récurrence</strong> — Comment <span class="mono" style="color: var(--accent)">dp[i]</span> dépend des états précédents ? Le cœur de l'algorithme.</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num serif">4</span>
+        <span><strong>Cas de base</strong> — Initialiser les valeurs connues : <span class="mono" style="color: var(--accent)">dp[0]</span>, <span class="mono" style="color: var(--accent)">dp[1]</span>, première ligne/colonne...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Gain de complexité -->
+  <div class="slide" data-slide="5">
+    <div class="tag">Pourquoi ça marche</div>
+    <h2 class="serif">Le gain est <span class="accent">exponentiel</span></h2>
+    <div class="comparison-row">
+      <div class="complexity-box">
+        <div class="value red">O(2ⁿ)</div>
+        <div class="label">Récursion naïve</div>
+      </div>
+      <span class="vs-badge">→</span>
+      <div class="complexity-box">
+        <div class="value green">O(n)</div>
+        <div class="label">Avec DP</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat">
+        <span class="value mono">n = 40</span>
+        <span class="label">Fibonacci naïf</span>
+      </div>
+      <div class="stat">
+        <span class="value mono red">~1.1 milliard</span>
+        <span class="label">Appels récursifs</span>
+      </div>
+      <div class="stat">
+        <span class="value mono green">40</span>
+        <span class="label">Avec DP (tabulation)</span>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top: 2rem;">
+      On échange de l'<strong style="color: var(--text)">espace mémoire</strong>
+      contre du <strong style="color: var(--text)">temps de calcul</strong>.
+      C'est le compromis fondamental du DP.
+    </p>
+  </div>
+
+  <!-- SLIDE 7: Problèmes classiques -->
+  <div class="slide" data-slide="6">
+    <div class="tag">Problèmes classiques</div>
+    <h2 class="serif">Les incontournables du <span class="accent">DP</span></h2>
+    <div class="problems-grid">
+      <div class="problem-card">
+        <div class="label green">Easy</div>
+        <h3 class="serif">Fibonacci</h3>
+        <p>Le hello world du DP. Tableau 1D, récurrence simple.</p>
+      </div>
+      <div class="problem-card">
+        <div class="label green">Easy</div>
+        <h3 class="serif">Climbing Stairs</h3>
+        <p>Variante de Fibonacci appliquée à un problème concret.</p>
+      </div>
+      <div class="problem-card">
+        <div class="label amber">Medium</div>
+        <h3 class="serif">Coin Change</h3>
+        <p>Optimisation 1D. Introduit la notion de min/max dans la récurrence.</p>
+      </div>
+      <div class="problem-card">
+        <div class="label amber">Medium</div>
+        <h3 class="serif">0/1 Knapsack</h3>
+        <p>Tableau 2D. Décision binaire : prendre ou ne pas prendre.</p>
+      </div>
+      <div class="problem-card">
+        <div class="label amber">Medium</div>
+        <h3 class="serif">LCS</h3>
+        <p>Comparaison de chaînes. Tableau 2D avec backtracking.</p>
+      </div>
+      <div class="problem-card">
+        <div class="label red">Hard</div>
+        <h3 class="serif">Edit Distance</h3>
+        <p>3 opérations, 3 directions. Le plus riche en logique.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Quand utiliser le DP -->
+  <div class="slide" data-slide="7">
+    <div class="tag">En pratique</div>
+    <h2 class="serif">Quand utiliser le <span class="accent">DP</span> ?</h2>
+    <div class="items">
+      <div class="item">
+        <span class="num green">✓</span>
+        <span>Le problème demande un <strong>optimum</strong> (min, max, nombre de façons)</span>
+      </div>
+      <div class="item">
+        <span class="num green">✓</span>
+        <span>On peut le décomposer en <strong>sous-problèmes qui se répètent</strong></span>
+      </div>
+      <div class="item">
+        <span class="num green">✓</span>
+        <span>La solution récursive a une <strong>complexité exponentielle</strong></span>
+      </div>
+      <div class="item" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+        <span class="num red">✗</span>
+        <span>Le problème n'a <strong>pas de sous-structure optimale</strong> (ex: plus long chemin dans un graphe général)</span>
+      </div>
+      <div class="item">
+        <span class="num red">✗</span>
+        <span>Les sous-problèmes sont <strong>tous distincts</strong> — pas de chevauchement, pas de gain</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Demo -->
+  <div class="slide" data-slide="8">
+    <div class="tag">Démonstration</div>
+    <h2 class="serif">Voyons ça <span class="accent">en action</span></h2>
+    <p class="subtitle">
+      6 algorithmes, visualisés étape par étape.
+      Chaque cellule, chaque décision, chaque récurrence — animée.
+    </p>
+    <div class="demo-box">
+      <div>
+        <h3 class="serif" style="font-size: 1.3rem; margin-bottom: 0.5rem;">DP Visualizer</h3>
+        <p style="font-size: 0.85rem; color: var(--text-3);">
+          Fibonacci · Climbing Stairs · Coin Change · Knapsack · LCS · Edit Distance
+        </p>
+      </div>
+      <div class="url">localhost:3000</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: Merci / Questions -->
+  <div class="slide" data-slide="9">
+    <h1 class="serif" style="font-size: 3.5rem;">
+      Questions <span class="accent">?</span>
+    </h1>
+    <p class="subtitle">
+      Le code source et les visualisations sont disponibles pour explorer à votre rythme.
+    </p>
+    <div class="items" style="margin-top: 3rem;">
+      <div class="item">
+        <span class="num dimmer">→</span>
+        <span class="dim">Pratique recommandée : <strong style="color: var(--text-2)">LeetCode</strong> — catégorie Dynamic Programming</span>
+      </div>
+      <div class="item">
+        <span class="num dimmer">→</span>
+        <span class="dim">Référence : <strong style="color: var(--text-2)">Introduction to Algorithms</strong> (CLRS), chapitres 14-15</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Progress bar -->
+<div class="progress" id="progress"></div>
+
+<!-- Counter -->
+<div class="counter" id="counter"></div>
+
+<!-- Nav hint -->
+<div class="nav-hint">
+  <kbd>←</kbd> <kbd>→</kbd> ou <kbd>espace</kbd> pour naviguer
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function goTo(n) {
+    if (n < 0 || n >= total) return;
+    slides[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+  }
+
+  goTo(0);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      goTo(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      goTo(current - 1);
+    } else if (e.key === 'Home') {
+      goTo(0);
+    } else if (e.key === 'End') {
+      goTo(total - 1);
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.clientX > window.innerWidth / 2) {
+      goTo(current + 1);
+    } else {
+      goTo(current - 1);
+    }
+  });
+</script>
+
+</body>
+</html>
