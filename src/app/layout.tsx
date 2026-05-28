@@ -50,7 +50,7 @@ export default function RootLayout({
               href="/"
               className="text-xs uppercase tracking-[0.15em] text-[#71717a] hover:text-[#d4a574] transition-colors"
             >
-              Index
+              By 2RK Dev
             </Link>
           </div>
         </nav>
