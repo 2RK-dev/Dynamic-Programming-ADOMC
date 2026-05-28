@@ -4,7 +4,7 @@
 
 ## SLIDE 1 — Titre (0:00 → 0:30)
 
-> Bonjour à tous. Aujourd'hui on va parler de **Dynamic Programming** — ou programmation dynamique en français. C'est une des techniques les plus puissantes en algorithmique, et probablement celle qui fait le plus peur aux développeurs en entretien technique. Mon objectif : qu'à la fin de ces 10 minutes, vous compreniez le concept, la méthode, et que vous puissiez l'appliquer vous-mêmes.
+> Bonjour Monsieur. Nous sommes le groupe composé de ... Pour notre TP, nous avons choisi le thème du Dynamic Programming. C'est l'une des techniques les plus puissantes en algorithmique. Notre objectif aujourd'hui, c'est de vous présenter le concept, la méthode, et de montrer à travers une démonstration interactive comment le DP fonctionne concrètement.
 
 *[→ slide suivante]*
 
@@ -14,7 +14,7 @@
 
 > Alors, c'est quoi le Dynamic Programming ? En une phrase : c'est une technique d'optimisation qui consiste à **décomposer un problème complexe en sous-problèmes plus simples**, et à **stocker les résultats** pour ne jamais recalculer la même chose deux fois.
 >
-> L'idée est simple : si je dois résoudre un gros problème, et que ce gros problème dépend de problèmes plus petits qui eux-mêmes reviennent plusieurs fois dans le calcul — alors je les résous une seule fois, je garde le résultat en mémoire, et je le réutilise.
+> L'idée est simple : si on doit résoudre un gros problème, et que ce gros problème dépend de problèmes plus petits qui eux-mêmes reviennent plusieurs fois dans le calcul — alors on les résout une seule fois, on garde le résultat en mémoire, et on le réutilise.
 >
 > Petit point historique : le terme a été inventé par Richard Bellman dans les années 1950. Et attention, "programmation" ici n'a rien à voir avec le code — ça vient du sens mathématique de "planification". Bellman a choisi ce nom volontairement vague pour cacher ses travaux de recherche à son administration qui n'aimait pas la recherche fondamentale.
 
@@ -44,7 +44,7 @@
 >
 > **La tabulation, ou bottom-up.** On construit la solution de manière itérative, en partant des cas de base. On remplit un tableau `dp` de gauche à droite, du plus petit sous-problème au plus grand. Pas de récursion, pas de pile. C'est souvent plus efficace en mémoire et plus rapide en pratique.
 >
-> Mon conseil : commencez par le top-down pour comprendre la récurrence, puis convertissez en bottom-up pour la production. C'est ce qu'on va voir dans la démo tout à l'heure.
+> En pratique, on commence par le top-down pour comprendre la récurrence, puis on convertit en bottom-up pour la production. C'est ce qu'on va montrer dans la démo tout à l'heure.
 
 *[→ slide suivante]*
 
@@ -52,7 +52,7 @@
 
 ## SLIDE 5 — 4 étapes pour résoudre (4:30 → 5:30)
 
-> Voici la méthode en 4 étapes. C'est votre framework pour aborder tout problème DP.
+> Voici la méthode en 4 étapes. C'est le framework pour aborder tout problème DP.
 >
 > **Étape 1 : Identifier.** Est-ce que le problème me demande un optimum ? Un minimum, un maximum, un nombre de façons ? Est-ce que je vois des sous-problèmes qui se répètent ? Si oui, c'est probablement du DP.
 >
@@ -106,7 +106,7 @@
 >
 > **Non** quand : le problème n'a pas de sous-structure optimale — par exemple, trouver le plus long chemin dans un graphe général, c'est NP-hard, le DP ne s'applique pas. Ou quand les sous-problèmes sont tous distincts — dans ce cas, divide-and-conquer suffit, pas besoin de mémoriser.
 >
-> En entretien technique, le signal que c'est du DP, c'est souvent les mots : "minimum", "maximum", "combien de façons", "est-ce possible".
+> En général, le signal que c'est du DP, c'est souvent les mots-clés : "minimum", "maximum", "combien de façons", "est-ce possible".
 
 *[→ slide suivante]*
 
@@ -114,7 +114,7 @@
 
 ## SLIDE 9 — Démonstration (8:15 → 8:30)
 
-> Maintenant, voyons tout ça en action. J'ai construit un visualiseur interactif qui anime chaque algorithme étape par étape. On va voir exactement comment les tableaux se remplissent, quelles cellules sont consultées, et comment la solution émerge.
+> Maintenant, on va passer à la démonstration. On a construit un visualiseur interactif qui anime chaque algorithme étape par étape. On va vous montrer exactement comment les tableaux se remplissent, quelles cellules sont consultées, et comment la solution émerge.
 
 *[Ouvrir le navigateur sur localhost:3000]*
 
@@ -166,11 +166,11 @@
 
 ---
 
-## SLIDE 10 — Questions (10:00)
+## SLIDE 10 — Conclusion (10:00)
 
-> Merci ! Si vous voulez pratiquer, LeetCode a une catégorie entière dédiée au DP — commencez par les Easy, puis montez progressivement. Et le visualiseur reste disponible pour expérimenter.
+> Pour conclure, le Dynamic Programming est une technique fondamentale en algorithmique qui permet de transformer des solutions exponentielles en solutions polynomiales. On a vu les deux propriétés clés — la sous-structure optimale et le chevauchement des sous-problèmes —, les deux approches d'implémentation, et la méthode en 4 étapes pour résoudre n'importe quel problème DP.
 >
-> Des questions ?
+> À travers notre démo, on a pu visualiser concrètement comment les algorithmes remplissent les tableaux et construisent la solution optimale. On espère que cette présentation vous a donné une vision claire du sujet. Merci pour votre attention, Monsieur.
 
 ---
 
